@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         2 -> {
-                            HighScoreScreen()
+                            HighScoreScreen { viewModel.updateCurrentPage(1) }
                         }
                     }
                 }
