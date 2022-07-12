@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MainScreen() {
-
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
