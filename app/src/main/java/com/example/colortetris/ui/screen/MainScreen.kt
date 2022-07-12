@@ -28,7 +28,7 @@ fun MainScreen() {
             GameBody()
         }
 
-        // Control Area
+        // Control Movement Area
         Box(
             modifier = Modifier.weight(1f)
         ) {
@@ -72,11 +72,14 @@ fun GameBody() {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(0.7f),
+                .fillMaxHeight(0.8f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
             val modifier = Modifier.weight(1f)
+
+            // Time
+            TimeView(modifier)
 
             // Score
             ScoreView(modifier)
@@ -90,6 +93,18 @@ fun GameBody() {
             // Next
             NextView(modifier)
         }
+    }
+}
+
+@Composable
+fun TimeView(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(text = "Time")
+        Text(text = "00:00")
     }
 }
 
@@ -143,7 +158,7 @@ fun NextView(modifier: Modifier = Modifier) {
                 for (j in 1..4) {
                     Box(
                         modifier = Modifier
-                            .size(25.dp)
+                            .size(20.dp)
                             .aspectRatio(1f)
                             .border(width = 1.dp, color = Color.LightGray),
                         contentAlignment = Alignment.Center,
@@ -158,17 +173,17 @@ fun NextView(modifier: Modifier = Modifier) {
 @Composable
 fun ControlArea(modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         // Direction Area
         Box(
             modifier = Modifier
-                .weight(0.65f)
-                .padding(horizontal = 20.dp)
+                .weight(0.55f)
+                .padding(start = 30.dp)
                 .aspectRatio(1f),
-            contentAlignment = Alignment.CenterStart,
+            contentAlignment = Alignment.CenterEnd,
         ) {
             DirectionButton()
         }
@@ -176,7 +191,7 @@ fun ControlArea(modifier: Modifier = Modifier) {
         // Rotate Area
         Box(
             modifier = Modifier
-                .padding(horizontal = 20.dp)
+                .padding(end = 30.dp)
                 .weight(0.35f),
             contentAlignment = Alignment.CenterEnd,
         ) {

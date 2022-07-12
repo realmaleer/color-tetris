@@ -14,28 +14,31 @@ import com.example.colortetris.ui.screen.MainScreen
 import com.example.colortetris.ui.theme.ColorTetrisTheme
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      ColorTetrisTheme(true) {
-        // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-          MainScreen()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ColorTetrisTheme(true) {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    MainScreen()
+                }
+            }
         }
-      }
     }
-  }
 }
 
 @Composable
 fun Greeting(name: String) {
-  Text(text = "Hello $name!")
+    Text(text = "Hello $name!")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-  ColorTetrisTheme {
-    Greeting("Android")
-  }
+    ColorTetrisTheme {
+        Greeting("Android")
+    }
 }
