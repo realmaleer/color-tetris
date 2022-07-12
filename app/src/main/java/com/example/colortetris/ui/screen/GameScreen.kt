@@ -3,6 +3,7 @@ package com.example.colortetris.ui.screen
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -15,7 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MainScreen() {
+fun GameScreen(
+    confirmResultAction: () -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -33,6 +36,9 @@ fun MainScreen() {
         ) {
             ControlArea()
         }
+
+        // Alert for Game Result
+        GameResultView(confirmResultAction, false)
     }
 }
 
@@ -303,6 +309,26 @@ fun RotateButton() {
         Text(
             text = "ROTATE",
             fontSize = 13.sp,
+        )
+    }
+}
+
+@Composable
+fun GameResultView(
+    confirmResultAction: () -> Unit,
+    isGameEnd: Boolean,
+) {
+    if (isGameEnd) {
+        AlertDialog(
+            onDismissRequest = { },
+            text = { Text("Score: 1000") },
+            confirmButton = {
+                Button(
+                    onClick = { confirmResultAction() }
+                ) {
+                    Text(text = "Back To Menu")
+                }
+            }
         )
     }
 }
