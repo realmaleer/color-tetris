@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.colortetris.navigation.NavRoutes
 import com.example.colortetris.ui.screen.GameScreen
 import com.example.colortetris.ui.screen.HighScoreScreen
-import com.example.colortetris.ui.screen.StartScreen
+import com.example.colortetris.ui.screen.HomeScreen
 import com.example.colortetris.ui.theme.ColorTetrisTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,17 +33,21 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = NavRoutes.Start.route,
+                        startDestination = NavRoutes.Home.route,
                     ) {
-                        composable(NavRoutes.Start.route) {
-                            StartScreen(
+                        composable(NavRoutes.Home.route) {
+                            HomeScreen(
                                 { navController.navigate(NavRoutes.Game.route) },
                                 { navController.navigate(NavRoutes.HighScore.route) },
                             )
                         }
 
                         composable(NavRoutes.Game.route) {
-                            GameScreen()
+                            GameScreen {
+                                navController.navigate(NavRoutes.Home.route) {
+                                    popUpTo(0)
+                                }
+                            }
                         }
 
                         composable(NavRoutes.HighScore.route) {

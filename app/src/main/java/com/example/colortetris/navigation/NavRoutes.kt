@@ -3,5 +3,5 @@ package com.example.colortetris.navigation
 sealed class NavRoutes(val route: String) {
     object HighScore : NavRoutes("highScore")
     object Game : NavRoutes("game")
-    object Start : NavRoutes("start")
+    object Home : NavRoutes("home")
 }
