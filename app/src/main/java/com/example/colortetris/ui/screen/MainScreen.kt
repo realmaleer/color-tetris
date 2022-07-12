@@ -52,7 +52,7 @@ fun GameBody() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             for (i in 1..24) {
-                Row() {
+                Row {
                     for (j in 1..12) {
                         Box(
                             modifier = Modifier
@@ -153,7 +153,7 @@ fun NextView(modifier: Modifier = Modifier) {
         Text(text = "NEXT")
         Spacer(modifier = Modifier.height(8.dp))
         for (i in 1..2) {
-            Row() {
+            Row {
                 for (j in 1..4) {
                     Box(
                         modifier = Modifier

@@ -10,7 +10,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun StartScreen(
-    onClickStartGameButtonAction: () -> Unit
+    onClickStartGameButtonAction: () -> Unit,
+    onClickHighScoreButtonAction: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -18,13 +19,13 @@ fun StartScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StartGameButton(onClickStartGameButtonAction)
-        HighScoreButton()
+        HighScoreButton(onClickHighScoreButtonAction)
     }
 }
 
 @Composable
 fun StartGameButton(
-    onClickStartGameButtonAction: () -> Unit
+    onClickStartGameButtonAction: () -> Unit,
 ) {
     Button(
         modifier = Modifier
@@ -37,12 +38,14 @@ fun StartGameButton(
 }
 
 @Composable
-fun HighScoreButton() {
+fun HighScoreButton(
+    onClickHighScoreButtonAction: () -> Unit,
+) {
     Button(
         modifier = Modifier
             .padding(vertical = 10.dp)
             .size(width = 150.dp, height = 40.dp),
-        onClick = {},
+        onClick = { onClickHighScoreButtonAction() },
     ) {
         Text(text = "HIGH SCORE")
     }
