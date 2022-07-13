@@ -8,17 +8,23 @@ import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.colortetris.ui.viewModel.GameViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun GameScreen(
     confirmResultAction: () -> Unit
 ) {
+    val gameViewModel = getViewModel<GameViewModel>()
+    val isShowResult = gameViewModel.isShowResult.collectAsState(initial = false)
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -38,7 +44,7 @@ fun GameScreen(
         }
 
         // Alert for Game Result
-        GameResultView(confirmResultAction, false)
+        GameResultView(confirmResultAction, isShowResult.value)
     }
 }
 
@@ -316,9 +322,9 @@ fun RotateButton() {
 @Composable
 fun GameResultView(
     confirmResultAction: () -> Unit,
-    isGameEnd: Boolean,
+    isShowResult: Boolean,
 ) {
-    if (isGameEnd) {
+    if (isShowResult) {
         AlertDialog(
             onDismissRequest = { },
             text = { Text("Score: 1000") },

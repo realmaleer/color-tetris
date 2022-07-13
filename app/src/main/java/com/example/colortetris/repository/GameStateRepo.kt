@@ -17,10 +17,15 @@ class GameStateRepo {
     private val _usedTime = MutableStateFlow(0)
     val usedTime: StateFlow<Int> = _usedTime
 
-    val initState = Array(24) { Array(12) { TetrisBlocksColor.Black } }
-
     private val _playAreaState = MutableStateFlow(Array(24) {
         Array(12) { TetrisBlocksColor.Black }
     })
     val playAreaState: StateFlow<Array<Array<TetrisBlocksColor>>> = _playAreaState
+
+    private val _isGameEnd = MutableStateFlow(false)
+    val isGameEnd: StateFlow<Boolean> = _isGameEnd
+
+    suspend fun updateGameEndStatus(isGameEnd: Boolean) {
+        _isGameEnd.emit(isGameEnd)
+    }
 }
