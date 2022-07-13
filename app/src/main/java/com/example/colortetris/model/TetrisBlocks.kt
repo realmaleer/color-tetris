@@ -1,9 +1,9 @@
 package com.example.colortetris.model
 
-enum class TetrisBlocksShape {
+enum class TetrisBrick {
     I, J, L, O, S, T, Z
 }
 
 enum class TetrisBlocksColor {
-    Black
+    Black, Yellow, Red, Green, Blue, White, Pink
 }
