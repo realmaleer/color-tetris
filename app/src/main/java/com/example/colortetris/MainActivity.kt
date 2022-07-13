@@ -14,9 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.colortetris.navigation.NavRoutes
-import com.example.colortetris.ui.screen.GameScreen
 import com.example.colortetris.ui.screen.HighScoreScreen
 import com.example.colortetris.ui.screen.HomeScreen
+import com.example.colortetris.ui.screen.game.GameScreen
 import com.example.colortetris.ui.theme.ColorTetrisTheme
 
 class MainActivity : ComponentActivity() {

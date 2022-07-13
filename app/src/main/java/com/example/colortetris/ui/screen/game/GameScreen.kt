@@ -1,4 +1,4 @@
-package com.example.colortetris.ui.screen
+package com.example.colortetris.ui.screen.game
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,8 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.colortetris.ui.screen.game.ControlArea
-import com.example.colortetris.ui.screen.game.GameBody
+import com.example.colortetris.ui.viewModel.CountDownViewStyling
 import com.example.colortetris.ui.viewModel.GameViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -24,6 +23,8 @@ fun GameScreen(
 ) {
     val gameViewModel = getViewModel<GameViewModel>()
     val isShowResult = gameViewModel.isShowResult.collectAsState(initial = false)
+    val countDownStyle =
+        gameViewModel.countDownStyle.collectAsState(initial = CountDownViewStyling("", 100))
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -55,18 +56,22 @@ fun GameScreen(
             Modifier
                 .fillMaxWidth()
                 .background(Color.Yellow)
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            countDownStyle.value,
         )
     }
 }
 
 @Composable
-fun CountDownView(modifier: Modifier = Modifier) {
+fun CountDownView(
+    modifier: Modifier = Modifier,
+    countDownStyle: CountDownViewStyling,
+) {
     Box(
-        modifier = modifier.height(100.dp)
+        modifier = modifier.height(countDownStyle.countDownHeight.dp)
     ) {
         Text(
-            text = "3",
+            text = countDownStyle.countDownString,
             color = Color.Black,
             fontSize = 60.sp,
             fontWeight = FontWeight.Bold,

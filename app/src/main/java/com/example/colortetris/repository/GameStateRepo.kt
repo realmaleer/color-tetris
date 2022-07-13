@@ -46,6 +46,10 @@ class GameStateRepo {
         _isGameEnd.emit(isGameEnd)
     }
 
+    suspend fun putGameStartStatus(isGameStart: Boolean) {
+        _isGameStart.emit(isGameStart)
+    }
+
     fun getRandomTetrisBrick(): TetrisBrick {
         val brickList = listOf(
             TetrisBrick.I,
@@ -71,5 +75,9 @@ class GameStateRepo {
         )
         val randomIndex = Random().nextInt(6)
         return colorList[randomIndex]
+    }
+
+    suspend fun putUsedTime(newUsedTime: Int) {
+        _usedTime.emit(newUsedTime)
     }
 }
