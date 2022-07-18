@@ -1,5 +1,6 @@
 package com.example.colortetris.ui.screen.game
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GameBody(
     displayedUsedTime: String,
+    displayNextBrick: Array<Array<Color>>,
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +70,10 @@ fun GameBody(
             SpeedView(modifier)
 
             // Next
-            NextView(modifier)
+            NextView(
+                modifier,
+                displayNextBrick,
+            )
         }
     }
 }
@@ -125,7 +130,10 @@ fun SpeedView(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun NextView(modifier: Modifier = Modifier) {
+fun NextView(
+    modifier: Modifier = Modifier,
+    displayNextBrick: Array<Array<Color>>,
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -140,6 +148,7 @@ fun NextView(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .size(20.dp)
                             .aspectRatio(1f)
+                            .background(color = displayNextBrick[i - 1][j - 1])
                             .border(width = 1.dp, color = Color.LightGray),
                         contentAlignment = Alignment.Center,
                     ) {

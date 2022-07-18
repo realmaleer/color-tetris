@@ -26,6 +26,11 @@ fun GameScreen(
     val countDownStyle =
         gameViewModel.countDownStyle.collectAsState(initial = CountDownViewStyling("", 100))
     val displayedTime = gameViewModel.displayedTime.collectAsState(initial = "00:00")
+    val displayNextBrick = gameViewModel.displayNextBrick.collectAsState(
+        initial = arrayOf(
+            Array(4) { Color.Black },
+            Array(4) { Color.Black })
+    )
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -38,7 +43,10 @@ fun GameScreen(
             Box(
                 modifier = Modifier.weight(2f)
             ) {
-                GameBody(displayedTime.value)
+                GameBody(
+                    displayedTime.value,
+                    displayNextBrick.value,
+                )
             }
 
             // Control Movement Area

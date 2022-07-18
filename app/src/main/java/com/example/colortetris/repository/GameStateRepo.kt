@@ -1,8 +1,10 @@
 package com.example.colortetris.repository
 
+import androidx.compose.ui.graphics.Color.Companion.Black
 import com.example.colortetris.model.BrickRotation
 import com.example.colortetris.model.TetrisBlocksColor
 import com.example.colortetris.model.TetrisBrick
+import com.example.colortetris.model.TetrisBrickShape
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.*
@@ -24,9 +26,14 @@ class GameStateRepo {
     val cdTime: StateFlow<Int> = _cdTime
 
     private val _playAreaState = MutableStateFlow(Array(24) {
-        Array(12) { TetrisBlocksColor.Black }
+        Array(12) { Black }
     })
-    val playAreaState: StateFlow<Array<Array<TetrisBlocksColor>>> = _playAreaState
+    val playAreaState: StateFlow<Array<Array<androidx.compose.ui.graphics.Color>>> = _playAreaState
+
+    private val _nextAreaState = MutableStateFlow(Array(2) {
+        Array(4) { Black }
+    })
+    val nextAreaState: StateFlow<Array<Array<androidx.compose.ui.graphics.Color>>> = _nextAreaState
 
     private val _isGameEnd = MutableStateFlow(false)
     val isGameEnd: StateFlow<Boolean> = _isGameEnd
@@ -54,42 +61,23 @@ class GameStateRepo {
         _isGameStart.emit(isGameStart)
     }
 
-    fun getRandomTetrisBrick(): TetrisBrick {
-        val brickList = listOf(
-            TetrisBrick.I,
-            TetrisBrick.J,
-            TetrisBrick.L,
-            TetrisBrick.O,
-            TetrisBrick.S,
-            TetrisBrick.T,
-            TetrisBrick.Z,
-        )
+    fun getRandomTetrisBrickShape(): TetrisBrickShape {
         val randomIndex = Random().nextInt(7)
-        return brickList[randomIndex]
+        return TetrisBrickShape.values()[randomIndex]
     }
 
     fun getRandomBrickRotation(): BrickRotation {
-        val rotationList = listOf(
-            BrickRotation.Original,
-            BrickRotation.Quarter,
-            BrickRotation.Half,
-            BrickRotation.ThreeQuarter,
-        )
         val randomIndex = Random().nextInt(4)
-        return rotationList[randomIndex]
+        return BrickRotation.values()[randomIndex]
     }
 
-    fun getRandomTetrisBlocksColor(): TetrisBlocksColor {
-        val colorList = listOf(
-            TetrisBlocksColor.Yellow,
-            TetrisBlocksColor.Red,
-            TetrisBlocksColor.Green,
-            TetrisBlocksColor.Blue,
-            TetrisBlocksColor.White,
-            TetrisBlocksColor.Pink,
-        )
-        val randomIndex = Random().nextInt(6)
-        return colorList[randomIndex]
+    fun getRandomTetrisBlocksColor(): androidx.compose.ui.graphics.Color {
+        val randomIndex = Random().nextInt(6) + 1
+        return TetrisBlocksColor[randomIndex]
+    }
+
+    fun getRandomStartPosition(): Int {
+        return Random().nextInt(12)
     }
 
     suspend fun putUsedTime(newUsedTime: Int) {
@@ -98,5 +86,14 @@ class GameStateRepo {
 
     suspend fun putCDTime(newCDTime: Int) {
         _cdTime.emit(newCDTime)
+    }
+
+    suspend fun putBrickUsedStatus(isBrickUsed: Boolean) {
+        _isBrickUsed.emit(isBrickUsed)
+    }
+
+    suspend fun putRandomBrick(tetrisBrick: TetrisBrick) {
+        _currentBrick.emit(_nextBrick.value)
+        _nextBrick.emit(tetrisBrick)
     }
 }
