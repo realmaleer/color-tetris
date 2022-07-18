@@ -2,6 +2,7 @@ package com.example.colortetris
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
@@ -48,6 +49,10 @@ class MainActivity : ComponentActivity() {
                                     popUpTo(0)
                                 }
                             }
+                            BackHandler(
+                                enabled = true,
+                                onBack = { }
+                            )
                         }
 
                         composable(NavRoutes.HighScore.route) {

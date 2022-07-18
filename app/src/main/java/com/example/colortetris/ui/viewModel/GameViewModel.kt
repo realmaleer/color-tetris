@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.colortetris.logic.GameStateLogic
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -16,6 +15,8 @@ data class CountDownViewStyling(
 class GameViewModel(
     private val logic: GameStateLogic,
 ) : ViewModel() {
+    val isGameEnd = logic.isGameEnd
+    val isGameStart = logic.isGameStart
     var isShowResult = logic.isGameEnd.map { it }
     val countDownStyle = logic.usedTime.map {
         when (it) {
@@ -41,19 +42,19 @@ class GameViewModel(
     }
 
     fun enterGameScreenAction() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             logic.updateGameStartStatus(true)
+        }
+    }
+
+    private fun init() {
+        viewModelScope.launch(Dispatchers.IO) {
+            logic.triggerTimer()
         }
     }
 
     // Timer
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            while (true) {
-                delay(1000L)
-                logic.addUsedTime()
-            }
-        }
+        init()
     }
-
 }

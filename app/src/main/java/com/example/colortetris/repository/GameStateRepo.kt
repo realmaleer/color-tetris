@@ -1,5 +1,6 @@
 package com.example.colortetris.repository
 
+import com.example.colortetris.model.BrickRotation
 import com.example.colortetris.model.TetrisBlocksColor
 import com.example.colortetris.model.TetrisBrick
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,6 +63,17 @@ class GameStateRepo {
         )
         val randomIndex = Random().nextInt(7)
         return brickList[randomIndex]
+    }
+
+    fun getRandomBrickRotation(): BrickRotation {
+        val rotationList = listOf(
+            BrickRotation.Original,
+            BrickRotation.Quarter,
+            BrickRotation.Half,
+            BrickRotation.ThreeQuarter,
+        )
+        val randomIndex = Random().nextInt(4)
+        return rotationList[randomIndex]
     }
 
     fun getRandomTetrisBlocksColor(): TetrisBlocksColor {

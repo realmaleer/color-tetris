@@ -40,8 +40,8 @@ fun StartGameButton(
             .padding(vertical = 10.dp)
             .size(width = 150.dp, height = 40.dp),
         onClick = {
-            onClickStartGameButtonAction()
             enterGameAction()
+            onClickStartGameButtonAction()
         },
     ) {
         Text(text = "START")
