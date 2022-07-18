@@ -20,6 +20,9 @@ class GameStateRepo {
     private val _usedTime = MutableStateFlow(0)
     val usedTime: StateFlow<Int> = _usedTime
 
+    private val _cdTime = MutableStateFlow(0)
+    val cdTime: StateFlow<Int> = _cdTime
+
     private val _playAreaState = MutableStateFlow(Array(24) {
         Array(12) { TetrisBlocksColor.Black }
     })
@@ -31,7 +34,7 @@ class GameStateRepo {
     private val _isGameStart = MutableStateFlow(false)
     val isGameStart: StateFlow<Boolean> = _isGameStart
 
-    private val _isBrickUsed = MutableStateFlow(false)
+    private val _isBrickUsed = MutableStateFlow(true)
     val isBrickUsed: StateFlow<Boolean> = _isBrickUsed
 
     private val _currentBrick = MutableStateFlow<TetrisBrick?>(null)
@@ -91,5 +94,9 @@ class GameStateRepo {
 
     suspend fun putUsedTime(newUsedTime: Int) {
         _usedTime.emit(newUsedTime)
+    }
+
+    suspend fun putCDTime(newCDTime: Int) {
+        _cdTime.emit(newCDTime)
     }
 }

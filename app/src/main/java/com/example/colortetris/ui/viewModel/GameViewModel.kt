@@ -17,8 +17,9 @@ class GameViewModel(
 ) : ViewModel() {
     val isGameEnd = logic.isGameEnd
     val isGameStart = logic.isGameStart
+    val displayedTime = logic.usedTime.map { convertDisplayedTime(it) }
     var isShowResult = logic.isGameEnd.map { it }
-    val countDownStyle = logic.usedTime.map {
+    val countDownStyle = logic.cdTime.map {
         when (it) {
             0 -> {
                 CountDownViewStyling("", 100)
@@ -43,7 +44,25 @@ class GameViewModel(
 
     fun enterGameScreenAction() {
         viewModelScope.launch(Dispatchers.IO) {
-            logic.updateGameStartStatus(true)
+            logic.triggerCD()
+        }
+    }
+
+    private fun convertDisplayedTime(usedTime: Int): String {
+        val diffMin = usedTime / 60
+        val diffSec = usedTime - diffMin * 60
+        return if (diffSec < 10) {
+            if (diffMin < 10) {
+                "0$diffMin:0$diffSec"
+            } else {
+                "$diffMin:0$diffSec"
+            }
+        } else {
+            if (diffMin < 10) {
+                "0$diffMin:$diffSec"
+            } else {
+                "$diffMin:$diffSec"
+            }
         }
     }
 

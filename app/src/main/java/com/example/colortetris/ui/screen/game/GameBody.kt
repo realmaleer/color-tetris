@@ -10,7 +10,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun GameBody() {
+fun GameBody(
+    displayedUsedTime: String,
+) {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center,
@@ -51,7 +53,10 @@ fun GameBody() {
             val modifier = Modifier.weight(1f)
 
             // Time
-            TimeView(modifier)
+            TimeView(
+                modifier,
+                displayedUsedTime,
+            )
 
             // Score
             ScoreView(modifier)
@@ -69,14 +74,17 @@ fun GameBody() {
 }
 
 @Composable
-fun TimeView(modifier: Modifier = Modifier) {
+fun TimeView(
+    modifier: Modifier = Modifier,
+    displayedUsedTime: String,
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = "Time")
-        Text(text = "00:00")
+        Text(text = displayedUsedTime)
     }
 }
 
