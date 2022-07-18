@@ -1,6 +1,7 @@
 package com.example.colortetris
 
 import android.app.Application
+import com.example.colortetris.di.logicModule
 import com.example.colortetris.di.repositoryModule
 import com.example.colortetris.di.storageModule
 import com.example.colortetris.di.viewModelModule
@@ -16,7 +17,7 @@ class ColorTetrisApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@ColorTetrisApp)
-            modules(listOf(repositoryModule, storageModule, viewModelModule))
+            modules(listOf(repositoryModule, storageModule, viewModelModule, logicModule))
         }
     }
 }

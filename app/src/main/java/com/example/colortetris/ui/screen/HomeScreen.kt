@@ -7,18 +7,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.colortetris.ui.viewModel.GameViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HomeScreen(
     onClickStartGameButtonAction: () -> Unit,
     onClickHighScoreButtonAction: () -> Unit,
 ) {
+    val gameViewModel = getViewModel<GameViewModel>()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        StartGameButton(onClickStartGameButtonAction)
+        StartGameButton(
+            onClickStartGameButtonAction,
+            enterGameAction = { gameViewModel.enterGameScreenAction() }
+        )
         HighScoreButton(onClickHighScoreButtonAction)
     }
 }
@@ -26,12 +33,16 @@ fun HomeScreen(
 @Composable
 fun StartGameButton(
     onClickStartGameButtonAction: () -> Unit,
+    enterGameAction: () -> Unit,
 ) {
     Button(
         modifier = Modifier
             .padding(vertical = 10.dp)
             .size(width = 150.dp, height = 40.dp),
-        onClick = { onClickStartGameButtonAction() },
+        onClick = {
+            enterGameAction()
+            onClickStartGameButtonAction()
+        },
     ) {
         Text(text = "START")
     }
