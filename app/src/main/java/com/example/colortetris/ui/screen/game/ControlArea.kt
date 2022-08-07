@@ -20,25 +20,25 @@ fun ControlArea(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        // Drop Area
+        Box(
+            modifier = Modifier
+                .weight(0.35f)
+                .padding(start = 30.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            DropButton()
+        }
+
         // Direction Area
         Box(
             modifier = Modifier
                 .weight(0.55f)
-                .padding(start = 30.dp)
+                .padding(end = 30.dp)
                 .aspectRatio(1f),
             contentAlignment = Alignment.CenterEnd,
         ) {
             DirectionButton()
-        }
-
-        // Rotate Area
-        Box(
-            modifier = Modifier
-                .padding(end = 30.dp)
-                .weight(0.35f),
-            contentAlignment = Alignment.CenterEnd,
-        ) {
-            RotateButton()
         }
     }
 }
@@ -65,7 +65,7 @@ fun DirectionButton() {
                     bottom = 1.dp
                 ),
             ) {
-                Text(text = "UP")
+                Text(text = "ROTATE")
             }
         }
         Box(
@@ -131,7 +131,7 @@ fun DirectionButton() {
 }
 
 @Composable
-fun RotateButton() {
+fun DropButton() {
     Button(
         modifier = Modifier
             .size(80.dp)
@@ -145,7 +145,7 @@ fun RotateButton() {
         ),
     ) {
         Text(
-            text = "ROTATE",
+            text = "DROP",
             fontSize = 13.sp,
         )
     }

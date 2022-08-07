@@ -1,5 +1,6 @@
 package com.example.colortetris.repository
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import com.example.colortetris.model.BrickRotation
 import com.example.colortetris.model.TetrisBlocksColor
@@ -28,12 +29,12 @@ class GameStateRepo {
     private val _playAreaState = MutableStateFlow(Array(24) {
         Array(12) { Black }
     })
-    val playAreaState: StateFlow<Array<Array<androidx.compose.ui.graphics.Color>>> = _playAreaState
+    val playAreaState: StateFlow<Array<Array<Color>>> = _playAreaState
 
     private val _nextAreaState = MutableStateFlow(Array(2) {
         Array(4) { Black }
     })
-    val nextAreaState: StateFlow<Array<Array<androidx.compose.ui.graphics.Color>>> = _nextAreaState
+    val nextAreaState: StateFlow<Array<Array<Color>>> = _nextAreaState
 
     private val _isGameEnd = MutableStateFlow(false)
     val isGameEnd: StateFlow<Boolean> = _isGameEnd
@@ -41,7 +42,7 @@ class GameStateRepo {
     private val _isGameStart = MutableStateFlow(false)
     val isGameStart: StateFlow<Boolean> = _isGameStart
 
-    private val _isBrickUsed = MutableStateFlow(true)
+    private val _isBrickUsed = MutableStateFlow(false)
     val isBrickUsed: StateFlow<Boolean> = _isBrickUsed
 
     private val _currentBrick = MutableStateFlow<TetrisBrick?>(null)
@@ -71,13 +72,13 @@ class GameStateRepo {
         return BrickRotation.values()[randomIndex]
     }
 
-    fun getRandomTetrisBlocksColor(): androidx.compose.ui.graphics.Color {
+    fun getRandomTetrisBlocksColor(): Color {
         val randomIndex = Random().nextInt(6) + 1
         return TetrisBlocksColor[randomIndex]
     }
 
-    fun getRandomStartPosition(): Int {
-        return Random().nextInt(12)
+    fun getRandomStartPosition(range: Int): Int {
+        return Random().nextInt(range)
     }
 
     suspend fun putUsedTime(newUsedTime: Int) {

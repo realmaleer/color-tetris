@@ -112,6 +112,11 @@ class GameViewModel(
         }
         .flowOn(Dispatchers.IO)
 
+    val displayCurrentBrick = logic.currentBrick
+        .map {
+
+        }
+
     fun enterGameScreenAction() {
         viewModelScope.launch(Dispatchers.IO) {
             logic.triggerCD()
@@ -138,7 +143,6 @@ class GameViewModel(
 
     private fun init() {
         viewModelScope.launch(Dispatchers.IO) {
-            logic.generateBrick()
             logic.triggerTimer()
         }
     }
