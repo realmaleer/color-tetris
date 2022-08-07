@@ -26,14 +26,17 @@ class GameStateRepo {
     private val _cdTime = MutableStateFlow(0)
     val cdTime: StateFlow<Int> = _cdTime
 
-    private val _playAreaState = MutableStateFlow(Array(24) {
-        Array(12) { Black }
-    })
-    val playAreaState: StateFlow<Array<Array<Color>>> = _playAreaState
+    private val _playAreaColor = MutableStateFlow(Array(28) { Array(12) { Black } })
+    val playAreaColor: StateFlow<Array<Array<Color>>> = _playAreaColor
 
-    private val _nextAreaState = MutableStateFlow(Array(2) {
-        Array(4) { Black }
-    })
+    private val _fixedColor = MutableStateFlow(Array(28) { Array(12) { Black } })
+    val fixedColor: StateFlow<Array<Array<Color>>> = _fixedColor
+
+    private val _tetrisBrickCurrentPosition =
+        MutableStateFlow<Array<Array<Int?>>>(Array(4) { Array(2) { null } })
+    val tetrisBrickCurrentPosition: StateFlow<Array<Array<Int?>>> = _tetrisBrickCurrentPosition
+
+    private val _nextAreaState = MutableStateFlow(Array(2) { Array(4) { Black } })
     val nextAreaState: StateFlow<Array<Array<Color>>> = _nextAreaState
 
     private val _isGameEnd = MutableStateFlow(false)
@@ -96,5 +99,17 @@ class GameStateRepo {
     suspend fun putRandomBrick(tetrisBrick: TetrisBrick) {
         _currentBrick.emit(_nextBrick.value)
         _nextBrick.emit(tetrisBrick)
+    }
+
+    suspend fun putPlayAreaColor(playAreaColor: Array<Array<Color>>) {
+        _playAreaColor.emit(playAreaColor)
+    }
+
+    suspend fun putTetrisBrickCurrentPosition(currentPosition: Array<Array<Int?>>) {
+        _tetrisBrickCurrentPosition.emit(currentPosition)
+    }
+
+    suspend fun putFixedColor(fixedColor: Array<Array<Color>>) {
+        _fixedColor.emit(fixedColor)
     }
 }

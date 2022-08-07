@@ -1,10 +1,12 @@
 package com.example.colortetris.logic
 
+import androidx.compose.ui.graphics.Color
 import com.example.colortetris.model.BrickRotation
 import com.example.colortetris.model.TetrisBrick
 import com.example.colortetris.model.TetrisBrickShape
 import com.example.colortetris.repository.GameStateRepo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onEach
 
 class GameStateLogic(private val repo: GameStateRepo) {
     val isGameEnd = repo.isGameEnd
@@ -13,7 +15,15 @@ class GameStateLogic(private val repo: GameStateRepo) {
     val cdTime = repo.cdTime
     val isBrickUsed = repo.isBrickUsed
     val nextBrick = repo.nextBrick
-    val currentBrick = repo.currentBrick
+    val playAreaColor = repo.playAreaColor
+    val fixedColor = repo.fixedColor
+    private val tetrisBrickCurrentPosition = repo.tetrisBrickCurrentPosition
+
+    val currentBrick = repo.currentBrick.onEach {
+        if (it != null) {
+            startNewBrick(it)
+        }
+    }
 
     suspend fun updateGameEndStatus(status: Boolean) {
         repo.putGameEndStatus(status)
@@ -42,11 +52,7 @@ class GameStateLogic(private val repo: GameStateRepo) {
         val color = repo.getRandomTetrisBlocksColor()
         val randomTetrisBrick = TetrisBrick(shape, rotation, color)
         repo.putRandomBrick(randomTetrisBrick)
-        updateBrickUsedStatus(false)
-    }
-
-    private suspend fun updateBrickUsedStatus(isBrickUsed: Boolean) {
-        repo.putBrickUsedStatus(isBrickUsed)
+        repo.putBrickUsedStatus(false)
     }
 
     suspend fun triggerCD() {
@@ -59,7 +65,47 @@ class GameStateLogic(private val repo: GameStateRepo) {
         generateBrick()
     }
 
-    fun generateBrickModel(
+    private suspend fun startNewBrick(tetrisBrick: TetrisBrick) {
+        val blockStartPosition = calculatePosition(tetrisBrick.shape, tetrisBrick.rotation)
+        val brickModel = generateBrickModel(tetrisBrick.shape, tetrisBrick.rotation)
+        val brickVerticalPosition = 4 - brickModel.size
+        val newBrickCurrentPosition = tetrisBrickCurrentPosition.value
+
+        for (i in brickModel.indices) {
+            val brickRow = brickModel[brickModel.size - i - 1]
+            for (j in 0 until brickModel[0].size) {
+                if (brickRow[j]) {
+                    newBrickCurrentPosition[0][0] = brickVerticalPosition + i
+                    newBrickCurrentPosition[0][1] = blockStartPosition + j
+                }
+            }
+        }
+
+        while (true) {
+            downMovement()
+            delay(1000)
+        }
+    }
+
+    private suspend fun downMovement() {
+        val newBrickCurrentPosition = tetrisBrickCurrentPosition.value
+        for (i in 0..3) {
+            newBrickCurrentPosition[i][0] = tetrisBrickCurrentPosition.value[i][0]?.plus(1)
+            if (fixedColor.value[newBrickCurrentPosition[i][0]!!][newBrickCurrentPosition[i][1]!!] != Color.Black
+                || newBrickCurrentPosition[i][0]!! > 27
+            ) {
+                repo.putTetrisBrickCurrentPosition(Array(4) { Array(2) { null } })
+                repo.putFixedColor(playAreaColor.value)
+                repo.putBrickUsedStatus(true)
+                break
+            }
+            if (i == 3) {
+                repo.putTetrisBrickCurrentPosition(newBrickCurrentPosition)
+            }
+        }
+    }
+
+    private fun generateBrickModel(
         shape: TetrisBrickShape,
         rotation: BrickRotation
     ): Array<Array<Boolean>> {
@@ -154,7 +200,7 @@ class GameStateLogic(private val repo: GameStateRepo) {
         }
     }
 
-    fun calculatePosition(shape: TetrisBrickShape, rotation: BrickRotation): Int {
+    private fun calculatePosition(shape: TetrisBrickShape, rotation: BrickRotation): Int {
         val range = if (shape == TetrisBrickShape.I) {
             if (rotation == BrickRotation.Original || rotation == BrickRotation.Half) {
                 12

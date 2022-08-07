@@ -22,6 +22,7 @@ class GameViewModel(
 ) : ViewModel() {
     val isGameEnd = logic.isGameEnd
     val isGameStart = logic.isGameStart
+    val playAreaColor = logic.playAreaColor
     val displayedTime = logic.usedTime.map { convertDisplayedTime(it) }
     var isShowResult = logic.isGameEnd.map { it }
     val countDownStyle = logic.cdTime.map {
